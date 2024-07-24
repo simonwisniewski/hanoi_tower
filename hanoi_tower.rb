@@ -56,6 +56,11 @@ class HanoiTower
     @move_count += 1
   end
 
+
+  def colorize(text, color_code)
+    "\e[#{color_code}m#{text}\e[0m"
+  end
+
   # Displays the state of the rods and the number of moves
   def display_towers
     system 'clear' or system 'cls'
@@ -72,7 +77,7 @@ class HanoiTower
         disk = tower[height - 1] || 0
         disk_visual = disk.zero? ? "|" : "█" * (disk * 2 - 1)
         padding = (max_width - disk_visual.length) / 2
-        print " " * padding + disk_visual + " " * padding
+        print " " * padding + colorize(disk_visual,30 + disk) + " " * padding
       end
       puts
     end
