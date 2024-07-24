@@ -56,7 +56,9 @@ class HanoiTower
     @move_count += 1
   end
 
-
+  # Colorizes the text
+  # @param text [String] the text to colorize
+  # @param color_code [Integer] the color code [30-37]
   def colorize(text, color_code)
     "\e[#{color_code}m#{text}\e[0m"
   end
@@ -65,7 +67,7 @@ class HanoiTower
   def display_towers
     system 'clear' or system 'cls'
     max_disk_size = @num
-    tower_labels = ["L", "M", "R"]
+    tower_labels = %w[L M R]
     towers = [@left_rod, @mid_rod, @right_rod]
 
     max_height = towers.map(&:size).max
@@ -73,17 +75,17 @@ class HanoiTower
     max_width = max_disk_size * 2 - 1
 
     max_height.downto(1) do |height|
-      towers.each_with_index do |tower, index|
+      towers.each_with_index do |tower, _index|
         disk = tower[height - 1] || 0
-        disk_visual = disk.zero? ? "|" : "█" * (disk * 2 - 1)
+        disk_visual = disk.zero? ? '|' : '█' * (disk * 2 - 1)
         padding = (max_width - disk_visual.length) / 2
-        print " " * padding + colorize(disk_visual,30 + disk) + " " * padding
+        print ' ' * padding + colorize(disk_visual, 30 + disk) + ' ' * padding
       end
       puts
     end
     tower_labels.each do |base|
       padding = (max_width - 1) / 2
-      print " " * padding + base + " " * padding
+      print ' ' * padding + base + ' ' * padding
     end
     puts "\nMoves: #{@move_count}"
     sleep(0.4)
