@@ -58,11 +58,29 @@ class HanoiTower
 
   # Displays the state of the rods and the number of moves
   def display_towers
-    system 'clear'
-    puts "L: #{@left_rod}"
-    puts "M: #{@mid_rod}"
-    puts "R: #{@right_rod}"
-    puts "Moves: #{@move_count}"
-    sleep 0.75
+    system 'clear' or system 'cls'
+    max_disk_size = @num
+    tower_labels = ["L", "M", "R"]
+    towers = [@left_rod, @mid_rod, @right_rod]
+
+    max_height = towers.map(&:size).max
+    max_height = max_disk_size if max_height < max_disk_size
+    max_width = max_disk_size * 2 - 1
+
+    max_height.downto(1) do |height|
+      towers.each_with_index do |tower, index|
+        disk = tower[height - 1] || 0
+        disk_visual = disk.zero? ? "|" : "█" * (disk * 2 - 1)
+        padding = (max_width - disk_visual.length) / 2
+        print " " * padding + disk_visual + " " * padding
+      end
+      puts
+    end
+    tower_labels.each do |base|
+      padding = (max_width - 1) / 2
+      print " " * padding + base + " " * padding
+    end
+    puts "\nMoves: #{@move_count}"
+    sleep(0.4)
   end
 end
